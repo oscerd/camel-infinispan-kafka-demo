@@ -1,0 +1,5 @@
+## Infinispan Kafka Camel Route for demo
+
+mvn clean compile exec:java to run
+
+Related to https://github.com/oscerd/infinispan-kafka-demo
