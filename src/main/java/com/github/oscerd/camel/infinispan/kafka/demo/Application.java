@@ -17,9 +17,9 @@
 package com.github.oscerd.camel.infinispan.kafka.demo;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.main.Main;
 import org.apache.camel.impl.DefaultCamelContext;
-import org.apache.camel.impl.SimpleRegistry;
+import org.apache.camel.main.Main;
+import org.apache.camel.support.SimpleRegistry;
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
 import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
@@ -40,12 +40,9 @@ public class Application {
     public void boot() throws Exception {
         // create a Main instance
         main = new Main();
-    	SimpleRegistry r = new SimpleRegistry();
-    	r.put("cacheContainer", cacheContainer());
-    	r.put("queryBuilder", new InfinispanKafkaQueryBuilder());
-        CamelContext context = new DefaultCamelContext(r);
-        context.addRoutes(new CamelInfinispanRoute());
-        context.start();
+    	main.bind("cacheContainer", cacheContainer());
+    	main.bind("queryBuilder", new InfinispanKafkaQueryBuilder());
+        main.addRouteBuilder(new CamelInfinispanRoute());
         System.out.println("Starting Camel. Use ctrl + c to terminate the JVM.\n");
         main.run();
     }
